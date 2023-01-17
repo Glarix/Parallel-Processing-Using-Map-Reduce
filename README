@@ -1,0 +1,47 @@
+/* APD TEMA1 CODREANU DAN 331CB */
+
+Tema este impartita practic in doua mari faze: faza de map si de reduce.
+
+[X] Logica pentru MAP:
+    [X] Imi creez threaduri care vor avea rol de mapper. Nu am nevoie de 
+        numarul de fisiere din care va trebui sa citesc deoarece in logica mea 
+        threadurile de mapper vor citi cate un fisier dupa care vor lua altul
+        pana cand se ajunge la finalul fisierului test.txt si nu mai sunt 
+        fisiere din care sa mai citeasca. Odata ce au fost citite toate fisierele de test, 
+        mapperii lovesc bariera si permit reducerilor sa isi faca treaba.
+
+    [X] Structura de date in care maperii colecteaza datele este mai exact o lista de 
+    pointeri ce pointeaza catre liste de pointeri ale fiecarui mapper care la randul 
+    lor pointeaza catre structuri de tip List ce contin int* unde se tin valorile colectate
+
+    [X] Pentru a selecta datele ma folosesc de functiile is_perfect_power() si 
+    compute_nth_root_binary_search()
+
+[X] Logica pentru REDUCE:
+    [X] Fiecare thread cu rol de reducer are o lista in care va stoca datele adunate de
+    la mapperi.
+
+    [X] Odata ce mapperii au terminat si bariera se ridica, reducerii incep sa treaca 
+    prin structura de date a mapperilor si iau din listele pe care ii intereseaza 
+    valorile si le stocheaza la ei in lista.
+
+    [X] Pentru a numara apoi numarul de elemente distincte din liste, sortez lista cu 
+    qsort iar apoi parcurg lista cu 2 pointeri comparand mereu elementele adiacente
+    iar daca sunt diferite atunci a fost gasit un element distinct nou.
+
+[X] Strunctura date mapperi:
+    [X]  [     |     |     |     |     |     |     ] (lista cu listele fiecarui mapper)
+            |
+            \/ ....
+           [  |  |  ] (lista cu listele unui mapper) 
+             |
+             \/
+             List ... (cate o lista pentru fiecare putere)
+
+
+Struct List: 
+typedef struct _list
+{
+    int current_size;
+    int* the_list;
+} List;
